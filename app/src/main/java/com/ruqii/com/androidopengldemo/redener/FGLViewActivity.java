@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.ruqii.com.androidopengldemo.ChooseActivity;
 import com.ruqii.com.androidopengldemo.R;
 
 /**
@@ -36,8 +37,8 @@ public class FGLViewActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mChange:
-//                Intent intent = new Intent(this, ChooseActivity.class);
-//                startActivityForResult(intent, REQ_CHOOSE);
+                Intent intent = new Intent(this, ChooseActivity.class);
+                startActivityForResult(intent, REQ_CHOOSE);
                 break;
             default:
                 break;

@@ -56,14 +56,12 @@ public class Triangle extends Shape {
     private int mPositionHandle;
     private int mColorHandle;
 
-    private float[] mViewMatrix=new float[16];
 
     //顶点个数
     private final int vertexCount = triangleCoords.length / COORDS_PER_VERTEX;
     //顶点之间的偏移量
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 每个顶点四个字节
 
-    private int mMatrixHandler;
 
     //设置颜色，依次为红绿蓝和透明通道
     float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -84,12 +82,12 @@ public class Triangle extends Shape {
 
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
         if (fragmentShader == 0) {
-            Log.e(TAG, "loadShader fragment failed");
+            Log.d(TAG, "loadShader fragment failed");
         }
 
         //创建一个空的OpenGLES程序
         mProgram = GLES20.glCreateProgram();
-        Log.e(TAG, "Could not link program:" + GLES20.glGetProgramInfoLog(mProgram));
+        Log.d(TAG, "Could not link program:" + GLES20.glGetProgramInfoLog(mProgram));
         //将顶点着色器加入到OpenGLES程序中
         GLES20.glAttachShader(mProgram, vertexShader);
         //将片元着色器加入到OpenGLES程序中
