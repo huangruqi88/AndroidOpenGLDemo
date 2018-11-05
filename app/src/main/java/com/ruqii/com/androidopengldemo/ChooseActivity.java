@@ -17,7 +17,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ruqii.com.androidopengldemo.redener.ColorFullTriangle;
+import com.ruqii.com.androidopengldemo.redener.Oval;
 import com.ruqii.com.androidopengldemo.redener.RegularTriangle;
+import com.ruqii.com.androidopengldemo.redener.Square;
 import com.ruqii.com.androidopengldemo.redener.Triangle;
 
 import java.util.ArrayList;
@@ -59,9 +62,9 @@ public class ChooseActivity extends AppCompatActivity {
         mData=new ArrayList<>();
         add("三角形", Triangle.class);
         add("正三角形", RegularTriangle.class);
-//        add("彩色三角形", TriangleColorFull.class);
-//        add("正方形", Square.class);
-//        add("圆形", Oval.class);
+        add("彩色三角形", ColorFullTriangle.class);
+        add("正方形", Square.class);
+        add("圆形", Oval.class);
 //        add("正方体", Cube.class);
 //        add("圆锥", Cone.class);
 //        add("圆柱", Cylinder.class);
