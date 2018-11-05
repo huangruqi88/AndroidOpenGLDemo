@@ -5,3 +5,5 @@
 ### 1.三角形
 ### 2.等腰三角形（通过相机和投影用变换矩阵来实现等腰直角三角形）
 投影矩阵和视口变换矩阵https://blog.csdn.net/wangdingqiaoit/article/details/51589825
+### 3.彩色三角形，正方形和圆形 
+GLES20.GL_TRIANGLES，GLES20.GL_TRIANGLE_STRIP，GLES20.GL_TRIANGLE_FAN https://blog.csdn.net/xiajun07061225/article/details/7455283
