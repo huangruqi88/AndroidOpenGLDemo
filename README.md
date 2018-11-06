@@ -9,3 +9,4 @@
 GLES20.GL_TRIANGLES，GLES20.GL_TRIANGLE_STRIP，GLES20.GL_TRIANGLE_FAN https://blog.csdn.net/xiajun07061225/article/details/7455283
 
 GLSL 三种变量类型（uniform，attribute和varying）https://www.jianshu.com/p/eed3ebdad4fb
+### 3.正方体和圆锥
