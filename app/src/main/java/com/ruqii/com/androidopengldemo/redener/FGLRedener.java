@@ -38,6 +38,7 @@ public class FGLRedener extends Shape{
             e.printStackTrace();
             mShape = new Triangle(mView);
         }
+        mShape.onSurfaceCreated(gl,config);
     }
 
     @Override
