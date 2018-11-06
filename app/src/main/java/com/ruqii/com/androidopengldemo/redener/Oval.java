@@ -139,6 +139,10 @@ public class Oval extends Shape {
         Matrix.multiplyMM(mMVPMatrix,0,mProjectMatrix,0,mViewMatrix,0);
     }
 
+    public void setMVPMatrix(float[] MVPMatrix) {
+        mMVPMatrix = MVPMatrix;
+    }
+
     /**
      * https://blog.csdn.net/xiajun07061225/article/details/7455283
      *  GLES20.GL_TRIANGLE_STRIP 保证所有的三角形都是按照相同的方向绘制的，
