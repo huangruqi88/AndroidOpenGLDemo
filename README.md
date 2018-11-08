@@ -10,3 +10,7 @@ GLES20.GL_TRIANGLES，GLES20.GL_TRIANGLE_STRIP，GLES20.GL_TRIANGLE_FAN https://
 
 GLSL 三种变量类型（uniform，attribute和varying）https://www.jianshu.com/p/eed3ebdad4fb
 ### 3.正方体和圆锥
+
+
+Android Studio 中编辑GLSL（着色器语言）插件 
+http://plugins.jetbrains.com/plugin/6993-glsl-support
