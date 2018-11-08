@@ -17,6 +17,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ruqii.com.androidopengldemo.redener.Ball;
+import com.ruqii.com.androidopengldemo.redener.BallWithLight;
 import com.ruqii.com.androidopengldemo.redener.ColorFullTriangle;
 import com.ruqii.com.androidopengldemo.redener.Cone;
 import com.ruqii.com.androidopengldemo.redener.Cube;
@@ -71,8 +73,8 @@ public class ChooseActivity extends AppCompatActivity {
         add("正方体", Cube.class);
         add("圆锥", Cone.class);
         add("圆柱", Cylinder.class);
-//        add("球体", Ball.class);
-//        add("带光源的球体",BallWithLight.class);
+        add("球体", Ball.class);
+        add("带光源的球体",BallWithLight.class);
     }
 
     private void add(String showName,Class<?> clazz){

@@ -42,7 +42,7 @@ public class Cylinder extends Shape {
         super(view);
 
         mBottomOval = new Oval(view);
-        mTopOval = new Oval(view,height);
+        mTopOval = new Oval(view, height);
 
         ArrayList<Float> pos = new ArrayList<>();
         float angDegSpan = 360f / n;
@@ -71,9 +71,9 @@ public class Cylinder extends Shape {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //开启深度检测测试
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/Cone.sh", "fshader/Cone.sh");
-        mBottomOval.onSurfaceCreated(gl,config);
-        mTopOval.onSurfaceCreated(gl,config);
+        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/Cone.glsl", "fshader/Cone.glsl");
+        mBottomOval.onSurfaceCreated(gl, config);
+        mTopOval.onSurfaceCreated(gl, config);
     }
 
     @Override
@@ -81,24 +81,24 @@ public class Cylinder extends Shape {
         //计算宽高比
         float ratio = (float) width / height;
         //设置投影透视
-        Matrix.frustumM(mProjectMatrix,0,-ratio,ratio,-1,1,3,20);
+        Matrix.frustumM(mProjectMatrix, 0, -ratio, ratio, -1, 1, 3, 20);
         //设置相机位置
-        Matrix.setLookAtM(mViewMatrix,0,1.0f,-10.0f,-4.0f,0f,0f,0f,0f,1.0f,0f);
+        Matrix.setLookAtM(mViewMatrix, 0, 1.0f, -10.0f, -4.0f, 0f, 0f, 0f, 0f, 1.0f, 0f);
         //计算变换矩阵
-        Matrix.multiplyMM(mMVPMatrix,0,mProjectMatrix,0,mViewMatrix,0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectMatrix, 0, mViewMatrix, 0);
 
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glUseProgram(mProgram);
-        int mMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
-        GLES20.glUniformMatrix4fv(mMatrix,1,false,mMVPMatrix,0);
-        int mPositionHandle = GLES20.glGetAttribLocation(mProgram,"vPosition");
+        int mMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
+        GLES20.glUniformMatrix4fv(mMatrix, 1, false, mMVPMatrix, 0);
+        int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glVertexAttribPointer(mPositionHandle,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
+        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,vSize);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, vSize);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
 
         mBottomOval.setMVPMatrix(mMVPMatrix);

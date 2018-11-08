@@ -77,7 +77,7 @@ public class Cone extends Shape {
         //开启深度测试
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         //加载着色器文件并创建OpenGL程序
-        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/Cone.sh", "fshader/Cone.sh");
+        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/Cone.glsl", "fshader/Cone.glsl");
         mOval.onSurfaceCreated(gl, config);
     }
 

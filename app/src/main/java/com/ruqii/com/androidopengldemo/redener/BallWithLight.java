@@ -16,23 +16,22 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * author:黄汝琪 on 2018/11/6.
- * email:huangruqi88@163.com
- * 球体
+ * @author huangruqi
+ * @Description:
+ * @data 2018/11/7 10:31
+ * 带光源的球体
  */
-public class Ball extends Shape {
+public class BallWithLight extends Shape {
 
-    private float step = 5f;
+    private float step = 10f;
     private FloatBuffer vertexBuffer;
     private int vSize;
-
     private int mProgram;
     private float[] mViewMatrix = new float[16];
     private float[] mProjectMatrix = new float[16];
     private float[] mMVPMatrix = new float[16];
 
-
-    public Ball(View view) {
+    public BallWithLight(View view) {
         super(view);
         float[] dataPos = createBallPos();
         ByteBuffer buffer = ByteBuffer.allocateDirect(dataPos.length * 4);
@@ -40,32 +39,27 @@ public class Ball extends Shape {
         vertexBuffer = buffer.asFloatBuffer();
         vertexBuffer.put(dataPos);
         vertexBuffer.position(0);
-
         vSize = dataPos.length / 3;
     }
 
     private float[] createBallPos() {
-        //球以（0,0,0）为中心，以R为半径，则球上任意一点的坐标为
-        //(R * cos(a) * sin(b), y0 = R * sin(a) ,R * cos(a) * cos(b))
-        //其中，a为圆心到点的线段与xy平面的夹角，b为圆心到点的线段在xz平面的投影与z轴的夹角
+        //球以（0,0,0）为中心，以R为半径则球上任一点的坐标为
+        // ( R * cos(a) * sin(b),y0 = R * sin(a),R * cos(a) * cos(b))
+        // 其中，a为圆心到点的线段与xz平面的夹角，b为圆心到点的线段在xz平面的投影与z轴的夹角
         ArrayList<Float> data = new ArrayList<>();
-        //球的半径
         float r1, r2;
-        //球球的维度的圆心到所对应的圆上的点
         float h1, h2;
         float sin, cos;
-
         for (float i = -90; i < 90 + step; i += step) {
             r1 = (float) Math.cos(i * Math.PI / 180.0);
             r2 = (float) Math.cos((i + step) * Math.PI / 180.0);
             h1 = (float) Math.sin(i * Math.PI / 180.0);
             h2 = (float) Math.sin((i + step) * Math.PI / 180.0);
-
-            //固定维度，360度旋转遍历一条纬线
+            // 固定纬度, 360 度旋转遍历一条纬线
             float step2 = step * 2;
-            for (float j = 0; j < 360.0f + step; j += step2) {
-                cos = (float) Math.cos(j * Math.PI / 180.0f);
-                sin = -(float) Math.sin(j * Math.PI / 180.0f);
+            for (float j = 0.0f; j < 360.0f + step; j += step2) {
+                cos = (float) Math.cos(j * Math.PI / 180.0);
+                sin = -(float) Math.sin(j * Math.PI / 180.0);
 
                 data.add(r2 * cos);
                 data.add(h2);
@@ -84,8 +78,7 @@ public class Ball extends Shape {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/Ball.glsl", "fshader/Cone.glsl");
+        mProgram = ShaderUtils.createProgram(mView.getResources(), "vshader/BallWithLigh.glsl", "fshader/BallWithLigh.glsl");
     }
 
     @Override
@@ -94,22 +87,14 @@ public class Ball extends Shape {
         float ratio = (float) width / height;
         //设置透视投影
         Matrix.frustumM(mProjectMatrix, 0, -ratio, ratio, -1, 1, 3, 20);
-        //计算相机位置
-        Matrix.setLookAtM(mViewMatrix, 0, 1.0f, -10.0f, -4.0f, 0f, 0f, 0f, 0.0f, 1.0f, 0f);
+        //设置相机位置
+        Matrix.setLookAtM(mViewMatrix, 0, 0.0f, 0.0f, 10.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         //计算变换矩阵
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectMatrix, 0, mViewMatrix, 0);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
-//        GLES20.glUseProgram(mProgram);
-//        int mMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
-//        GLES20.glUniformMatrix4fv(mMatrix,1,false,mMVPMatrix,0);
-//        int mPositionHandle = GLES20.glGetAttribLocation(mProgram,"vPosition");
-//        GLES20.glEnableVertexAttribArray(mPositionHandle);
-//        GLES20.glVertexAttribPointer(mPositionHandle,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
-//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN,0,vSize);
-//        GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glUseProgram(mProgram);
         Log.e("wuwang", "mProgram:" + mProgram);
         int mMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
