@@ -12,5 +12,5 @@ GLSL 三种变量类型（uniform，attribute和varying）https://www.jianshu.co
 ### 3.正方体和圆锥
 
 
-Android Studio 中编辑GLSL（着色器语言）插件 
-http://plugins.jetbrains.com/plugin/6993-glsl-support
+Android Studio GLSLSupport编辑器（着色器语言）插件 （支持高亮和智能提示）
+https://blog.csdn.net/huangruqi888/article/details/83858195
