@@ -18,8 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".redener.FGLViewActivity"/>
-        <activity android:name=".ChooseActivity"/>
+        <activity android:name=".redener.FGLViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChooseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".image.SGLViewActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

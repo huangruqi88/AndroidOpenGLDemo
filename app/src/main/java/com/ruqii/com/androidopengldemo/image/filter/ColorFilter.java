@@ -1,6 +1,7 @@
 package com.ruqii.com.androidopengldemo.image.filter;
 
 import android.content.Context;
+import android.opengl.GLES20;
 
 /**
  * author:黄汝琪 on 2018/11/8.
@@ -8,9 +9,33 @@ import android.content.Context;
  */
 public class ColorFilter extends AFilter{
 
-    public ColorFilter(Context context, String vertex, String fragment) {
-        super(context, vertex, fragment);
+    private Filter mFilter;
+    /**
+     * 切换图片模式的类型
+     */
+    private int hChangeType;
+    /**
+     * 切换模式的纹理颜色
+     */
+    private int hChangeColor;
+
+
+    public ColorFilter(Context context,Filter filter) {
+        super(context, "filter/default_vertex.glsl", "filter/color_fragment.glsl");
+        this.mFilter = filter;
     }
+    @Override
+    protected void onDrawCreate(int program) {
+        hChangeType = GLES20.glGetUniformLocation(program,"vChangeType");
+        hChangeColor = GLES20.glGetUniformLocation(program,"vChangeColor");
+    }
+    @Override
+    protected void onDraw() {
+        GLES20.glUniform1i(hChangeType,mFilter.getType());
+        GLES20.glUniform3fv(hChangeColor,1,mFilter.getdata(),0);
+    }
+
+
 
     public enum Filter{
         /**
@@ -51,7 +76,7 @@ public class ColorFilter extends AFilter{
             return vChangeType;
         }
 
-        public float[] data(){
+        public float[] getdata(){
             return data;
         }
 

@@ -27,10 +27,12 @@ public class SGLRender implements GLSurfaceView.Renderer {
         mFilter = new ContrastColorFilter(mView.getContext(), ColorFilter.Filter.NONE);
     }
 
-    private void setFilter(AFilter filter) {
+    public void setFilter(AFilter filter) {
         refreshFlag = true;
         mFilter = filter;
-        //TODO:待写
+        if(null != mBitmap) {
+            mFilter.setBitmap(mBitmap);
+        }
     }
 
     public AFilter getFilter() {
