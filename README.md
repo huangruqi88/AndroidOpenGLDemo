@@ -15,7 +15,8 @@ GLSL 三种变量类型（uniform，attribute和varying）https://www.jianshu.co
 Android Studio GLSLSupport编辑器（着色器语言）插件 （支持高亮和智能提示）
 https://blog.csdn.net/huangruqi888/article/details/83858195
 ### 4.圆柱，球体和带光源的球体
-
+opengl es2.0之Matrix.setLookAtM解析
+https://blog.csdn.net/kkae8643150/article/details/52805738
 ### 5.对于图片的处理，冷色调，暖色调，模糊，放大镜（及渲染半张对比图）
 
 GLES2.0中文API-glVertexAttribPointer()方法参数详解
