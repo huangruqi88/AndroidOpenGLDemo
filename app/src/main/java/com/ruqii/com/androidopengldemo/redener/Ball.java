@@ -102,23 +102,13 @@ public class Ball extends Shape {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-//        GLES20.glUseProgram(mProgram);
-//        int mMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
-//        GLES20.glUniformMatrix4fv(mMatrix,1,false,mMVPMatrix,0);
-//        int mPositionHandle = GLES20.glGetAttribLocation(mProgram,"vPosition");
-//        GLES20.glEnableVertexAttribArray(mPositionHandle);
-//        GLES20.glVertexAttribPointer(mPositionHandle,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
-//        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN,0,vSize);
-//        GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glUseProgram(mProgram);
-        Log.e("wuwang", "mProgram:" + mProgram);
-        int mMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
-        GLES20.glUniformMatrix4fv(mMatrix, 1, false, mMVPMatrix, 0);
-        int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        Log.e("wuwang", "Get Position:" + mPositionHandle);
+        int mMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
+        GLES20.glUniformMatrix4fv(mMatrix,1,false,mMVPMatrix,0);
+        int mPositionHandle = GLES20.glGetAttribLocation(mProgram,"vPosition");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vSize);
+        GLES20.glVertexAttribPointer(mPositionHandle,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN,0,vSize);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 }

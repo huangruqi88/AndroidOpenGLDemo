@@ -6,6 +6,7 @@ import android.opengl.GLES20;
 /**
  * author:黄汝琪 on 2018/11/8.
  * email:huangruqi88@163.com
+ * 整张图片的处理
  */
 public class ColorFilter extends AFilter{
 
@@ -21,7 +22,7 @@ public class ColorFilter extends AFilter{
 
 
     public ColorFilter(Context context,Filter filter) {
-        super(context, "filter/default_vertex.glsl", "filter/color_fragment.glsl");
+        super(context, "filter/default_vertex.glsl", "filter/default_fragment.glsl");
         this.mFilter = filter;
     }
     @Override

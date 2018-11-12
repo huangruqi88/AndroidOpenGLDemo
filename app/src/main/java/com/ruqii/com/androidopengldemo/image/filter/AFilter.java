@@ -119,7 +119,7 @@ public abstract class AFilter implements GLSurfaceView.Renderer {
         glCoordinate = GLES20.glGetAttribLocation(mProgram, "vCoordinate");
         glHTexture = GLES20.glGetUniformLocation(mProgram, "vTexture");
         glHMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
-        hIsHalf = GLES20.glGetUniformLocation(mProgram, "vMatrix");
+        hIsHalf = GLES20.glGetUniformLocation(mProgram, "vIsHalf");
         glHUxy = GLES20.glGetUniformLocation(mProgram, "uXY");
         onDrawCreate(mProgram);
     }
@@ -168,11 +168,14 @@ public abstract class AFilter implements GLSurfaceView.Renderer {
         GLES20.glUniformMatrix4fv(glHMatrix,1,false,mMVPMartix,0);
         //启用顶点坐标的
         GLES20.glEnableVertexAttribArray(glHPosition);
-        //启用文理贴图的顶点坐标
         GLES20.glEnableVertexAttribArray(glCoordinate);
         //启用纹理贴图
         GLES20.glUniform1i(glHTexture,0);
         textureId = createTexture();
+        //准备三角形的坐标数据
+        GLES20.glVertexAttribPointer(glHPosition,2,GLES20.GL_FLOAT,false,0,bPos);
+        GLES20.glVertexAttribPointer(glCoordinate,2,GLES20.GL_FLOAT,false,0,bCoord);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP,0,4);
     }
 
     /**

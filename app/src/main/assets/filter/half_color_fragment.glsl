@@ -21,15 +21,15 @@ void modifyColor(vec4 color){
 
 
 void main() {
-    vec4 nColor = textire2D(vTexture,aCoordinate);
-    if(apo.x > 0.0 || vIsHalf == 0) {
+    vec4 nColor = texture2D(vTexture,aCoordinate);
+    if(aPos.x > 0.0 || vIsHalf == 0) {
         if(vChangeType == 1) {
             float c = nColor.r * vChangeColor.r + nColor.g * vChangeColor.g + nColor.b * vChangeColor.b;
             gl_FragColor = vec4(c,c,c,nColor.a);
         } else if(vChangeType == 2) {
             vec4 deltaColor = nColor + vec4(vChangeColor,0.0);
             modifyColor(deltaColor);
-            GL_FragColor = deltaColor;
+            gl_FragColor = deltaColor;
         } else if(vChangeType == 3) {
             nColor += texture2D(vTexture,vec2(aCoordinate.x - vChangeColor.r,aCoordinate.y - vChangeColor.r));
             nColor += texture2D(vTexture,vec2(aCoordinate.x - vChangeColor.r,aCoordinate.y + vChangeColor.r));
@@ -46,9 +46,9 @@ void main() {
             nColor /= 13.0;
             gl_FragColor = nColor;
         } else if(vChangeType == 4) {           // distance()返回向量xy之间的距离
-            float dis = distance(vec2(gPosition.x,gPosition / uXY),vec2(vChangeColor.r,vChangeColor.g));
-            if(dis < vChangeColor.g){
-                nColor = texture2D(vTexture,vec2(aCoordinate.x / 2.0 + 0.25,aCoordinate.y / 2.0 + 0.25));
+            float dis = distance(vec2(gPosition.x, gPosition.y / uXY), vec2(vChangeColor.r, vChangeColor.g));
+            if (dis < vChangeColor.b) {
+                nColor = texture2D(vTexture, vec2(aCoordinate.x / 2.0 + 0.25, aCoordinate.y / 2.0 + 0.25));
             }
             gl_FragColor = nColor;
         } else {

@@ -22,7 +22,7 @@ import javax.microedition.khronos.opengles.GL10;
  * 带光源的球体
  */
 public class BallWithLight extends Shape {
-
+    private static final String TAG = "BallWithLight";
     private float step = 10f;
     private FloatBuffer vertexBuffer;
     private int vSize;
@@ -96,11 +96,11 @@ public class BallWithLight extends Shape {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glUseProgram(mProgram);
-        Log.e("wuwang", "mProgram:" + mProgram);
+        Log.d(TAG, "mProgram:" + mProgram);
         int mMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
         GLES20.glUniformMatrix4fv(mMatrix, 1, false, mMVPMatrix, 0);
         int mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        Log.e("wuwang", "Get Position:" + mPositionHandle);
+        Log.d(TAG, "Get Position:" + mPositionHandle);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vSize);
