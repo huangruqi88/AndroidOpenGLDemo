@@ -26,6 +26,9 @@
         <activity
             android:name=".image.SGLViewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".varying.VaryActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

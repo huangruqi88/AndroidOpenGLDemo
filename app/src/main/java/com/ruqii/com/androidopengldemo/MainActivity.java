@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.ruqii.com.androidopengldemo.image.SGLViewActivity;
 import com.ruqii.com.androidopengldemo.redener.FGLViewActivity;
+import com.ruqii.com.androidopengldemo.varying.VaryActivity;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         data=new ArrayList<>();
         add("绘制形体",FGLViewActivity.class);
         add("图片处理",SGLViewActivity.class);
-//        add("图形变换",VaryActivity.class);
+        add("图形变换",VaryActivity.class);
 //        add("相机",CameraActivity.class);
 //        add("相机2 动画",Camera2Activity.class);
 //        add("相机3 美颜",Camera3Activity.class);

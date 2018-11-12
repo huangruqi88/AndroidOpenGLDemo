@@ -102,10 +102,10 @@ public class Cube {
      * 创建OpenGL环境
      */
     public void create(){
-        mProgram = ShaderUtils.createProgram(mResources,"vary/vertex.glsl", "vary/fragment.glsl");
+        mProgram = ShaderUtils.createProgram(mResources,"varying/vertex.glsl", "varying/fragment.glsl");
         hVertex = GLES20.glGetAttribLocation(mProgram,"vPosition");
         hColor = GLES20.glGetAttribLocation(mProgram,"aColor");
-        hMatrix = GLES20.glGetAttribLocation(mProgram,"vMatrix");
+        hMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
 
     }
 
@@ -125,7 +125,7 @@ public class Cube {
         //准备三角形的坐标数据
         GLES20.glVertexAttribPointer(hVertex,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
         //设置三角形的颜色
-        GLES20.glVertexAttribPointer(hColor,3,GLES20.GL_FLOAT,false,0,colorBuffer);
+        GLES20.glVertexAttribPointer(hColor,4,GLES20.GL_FLOAT,false,0,colorBuffer);
         //索引法绘制正方体
         GLES20.glDrawElements(GLES20.GL_TRIANGLES,index.length,GLES20.GL_SHADER_TYPE,indexBuffer);
         //禁止顶点数组
