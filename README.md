@@ -17,4 +17,6 @@ https://blog.csdn.net/huangruqi888/article/details/83858195
 ### 4.圆柱，球体和带光源的球体
 
 ### 5.对于图片的处理，冷色调，暖色调，模糊，放大镜（及渲染半张对比图）
+
+GLES2.0中文API-glVertexAttribPointer()方法参数详解
 https://blog.csdn.net/flycatdeng/article/details/82667374
