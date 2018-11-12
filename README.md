@@ -20,6 +20,8 @@ https://blog.csdn.net/huangruqi888/article/details/83858195
 ### 4.圆柱，球体和带光源的球体
 opengl es2.0之Matrix.setLookAtM解析
 https://blog.csdn.net/kkae8643150/article/details/52805738
+旋转矩阵(Rotate Matrix)的性质分析
+https://blog.csdn.net/zhang11wu4/article/details/49761121
 ### 5.对于图片的处理，冷色调，暖色调，模糊，放大镜（及渲染半张对比图）
 
 GLES2.0中文API-glVertexAttribPointer()方法参数详解
