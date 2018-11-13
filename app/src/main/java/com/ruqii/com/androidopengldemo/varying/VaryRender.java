@@ -25,9 +25,9 @@ public class VaryRender implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         //开启深度测试
-        GLES20.glClear(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         mCube.create();
 
     }
@@ -38,7 +38,7 @@ public class VaryRender implements GLSurfaceView.Renderer {
         GLES20.glViewport(0, 0, width, height);
         float ratio = (float) width / height;
         mTools.ortho(-ratio * 6, ratio * 6, -6, 6, 3, 20);
-        mTools.setCamera(0,0,10,0,0,0,0,1,0);
+        mTools.setCamera(0, 0, 10, 0, 0, 0, 0, 1, 0);
     }
 
     @Override
@@ -50,33 +50,35 @@ public class VaryRender implements GLSurfaceView.Renderer {
         //Y轴正方形平移
         mTools.pushMatrix();
         mTools.translate(0,3,0);
+        mTools.rotate(180f,-1,-1,1);
         mCube.setMatrix(mTools.getFinalMatrix());
         mCube.drawCube();
+        mTools.popMatrix();
 
         //y轴负方向平移，然后按xyz->(0,0,0)到(1,1,1)旋转30度
         mTools.pushMatrix();
         mTools.translate(0,-3,0);
         mTools.rotate(30f,1,1,1);
         mCube.setMatrix(mTools.getFinalMatrix());
+        mCube.drawCube();
+        mTools.popMatrix();
 
         //x轴负方向平移，然后按xyz->(0,0,0)到(1,-1,1)旋转120度，在放大到0.5倍
         mTools.pushMatrix();
         mTools.translate(-3,0,0);
         mTools.scale(0.5f,0.5f,0.5f);
-        mCube.setMatrix(mTools.getFinalMatrix());
-        mCube.drawCube();
 
         //在以上变换的基础上再进行变换
         mTools.pushMatrix();
         mTools.translate(12,0,0);
-        mTools.scale(1.0f,1.0f,1.0f);
+        mTools.scale(1.0f,2.0f,1.0f);
         mTools.rotate(30,1,2,1);
         mCube.setMatrix(mTools.getFinalMatrix());
         mCube.drawCube();
         mTools.popMatrix();
 
         //接着被中断的地方执行
-        mTools.rotate(30f,-1,-1,1);
+        mTools.rotate(30f, -1, -1, 1);
         mCube.setMatrix(mTools.getFinalMatrix());
         mCube.drawCube();
         mTools.popMatrix();

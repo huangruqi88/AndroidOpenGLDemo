@@ -52,14 +52,14 @@ public class Cube {
     };
 
     private float color[] = {
-            0f,1f,0f,1f,
-            0f,1f,0f,1f,
-            0f,1f,0f,1f,
-            0f,1f,0f,1f,
-            1f,0f,0f,1f,
-            1f,0f,0f,1f,
-            1f,0f,0f,1f,
-            1f,0f,0f,1f,
+            0f, 1f, 0f, 1f,
+            0f, 1f, 0f, 1f,
+            0f, 1f, 0f, 1f,
+            0f, 1f, 0f, 1f,
+            1f, 0f, 0f, 1f,
+            1f, 0f, 0f, 1f,
+            1f, 0f, 0f, 1f,
+            1f, 0f, 0f, 1f,
     };
     private FloatBuffer vertexBuffer;
     private FloatBuffer colorBuffer;
@@ -101,33 +101,32 @@ public class Cube {
     /**
      * 创建OpenGL环境
      */
-    public void create(){
-        mProgram = ShaderUtils.createProgram(mResources,"varying/vertex.glsl", "varying/fragment.glsl");
-        hVertex = GLES20.glGetAttribLocation(mProgram,"vPosition");
-        hColor = GLES20.glGetAttribLocation(mProgram,"aColor");
-        hMatrix = GLES20.glGetUniformLocation(mProgram,"vMatrix");
-
+    public void create() {
+        mProgram = ShaderUtils.createProgram(mResources, "varying/vertex.glsl", "varying/fragment.glsl");
+        hVertex = GLES20.glGetAttribLocation(mProgram, "vPosition");
+        hColor = GLES20.glGetAttribLocation(mProgram, "aColor");
+        hMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
     }
 
     /**
      * 画正方形
      */
-    public void drawCube(){
+    public void drawCube() {
         //将程序加入到OpenGLES2.0环境
         GLES20.glUseProgram(mProgram);
         //指定vMatrix的值
         if (null != mMatrix) {
-            GLES20.glUniformMatrix4fv(mProgram,1,false,mMatrix,0);
+            GLES20.glUniformMatrix4fv(hMatrix, 1, false, mMatrix, 0);
         }
         //启用句柄
         GLES20.glEnableVertexAttribArray(hVertex);
         GLES20.glEnableVertexAttribArray(hColor);
         //准备三角形的坐标数据
-        GLES20.glVertexAttribPointer(hVertex,3,GLES20.GL_FLOAT,false,0,vertexBuffer);
+        GLES20.glVertexAttribPointer(hVertex, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
         //设置三角形的颜色
-        GLES20.glVertexAttribPointer(hColor,4,GLES20.GL_FLOAT,false,0,colorBuffer);
+        GLES20.glVertexAttribPointer(hColor, 4, GLES20.GL_FLOAT, false, 0, colorBuffer);
         //索引法绘制正方体
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES,index.length,GLES20.GL_SHADER_TYPE,indexBuffer);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLES, index.length, GLES20.GL_UNSIGNED_SHORT, indexBuffer);
         //禁止顶点数组
         GLES20.glDisableVertexAttribArray(hVertex);
         GLES20.glDisableVertexAttribArray(hColor);

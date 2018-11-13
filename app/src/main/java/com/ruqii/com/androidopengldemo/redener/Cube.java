@@ -148,7 +148,7 @@ public class Cube extends Shape {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT );
+        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
         //将程序加入到OpenGL程序中
         GLES20.glUseProgram(mProgram);
         //获取变换矩阵vMatrix的成员句柄
