@@ -30,3 +30,4 @@ https://blog.csdn.net/zhang11wu4/article/details/49761121
 
 GLES2.0中文API-glVertexAttribPointer()方法参数详解
 https://blog.csdn.net/flycatdeng/article/details/82667374
+### 6.相机预览
