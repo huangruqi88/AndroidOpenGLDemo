@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/mDeal"
         app:showAsAction="always"
-        android:title="全部处理"/>
+        android:title="全部处理"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mDefault"
-        android:title="原图"/>
+        android:title="原图"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mGray"
-        android:title="黑白"/>
+        android:title="黑白"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mCool"
-        android:title="冷色调"/>
+        android:title="冷色调"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mWarm"
-        android:title="暖色调"/>
+        android:title="暖色调"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mBlur"
-        android:title="模糊"/>
+        android:title="模糊"
+        tools:ignore="HardcodedText" />
     <item android:id="@+id/mMagn"
-        android:title="放大镜"/>
+        android:title="放大镜"
+        tools:ignore="HardcodedText" />
 
 </menu>

@@ -1,6 +1,9 @@
 package com.ruqii.com.androidopengldemo.camera;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.graphics.SurfaceTexture;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
@@ -20,7 +23,7 @@ public class CameraView extends GLSurfaceView implements GLSurfaceView.Renderer 
 
 
     public CameraView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public CameraView(Context context, AttributeSet attrs) {
@@ -38,16 +41,54 @@ public class CameraView extends GLSurfaceView implements GLSurfaceView.Renderer 
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
+        mCameraDrawer.onSurfaceCreated(gl, config);
+        if (mRunnable != null) {
+            mRunnable.run();
+            mRunnable = null;
+        }
+        mKikatCamera.open(mCameraId);
+        mCameraDrawer.setCameraId(mCameraId);
+        Point point = mKikatCamera.getPicSize();
+        mCameraDrawer.setDataSize(point.x, point.y);
+        mKikatCamera.setPreviewTexture(mCameraDrawer.getSurfaceTexture());
+        mCameraDrawer.getSurfaceTexture().setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() {
+            @Override
+            public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+                requestRender();
+            }
+        });
+        mKikatCamera.preview();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        mCameraDrawer.setViewSize(width, height);
+        GLES20.glViewport(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        mCameraDrawer.onDrawFrame(gl);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mKikatCamera.close();
+    }
+
+    /**
+     * 切换摄像头
+     */
+    public void switchCamera() {
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mKikatCamera.close();
+                mCameraId = mCameraId == 1 ? 0 : 1;
+            }
+        };
+        onPause();
+        onResume();
     }
 }

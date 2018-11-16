@@ -83,7 +83,9 @@ public class KikatCamera implements ICamera {
     public boolean close() {
         if (null != mCamera) {
             mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
             mCamera.release();
+            mCamera = null;
         }
         return false;
     }
