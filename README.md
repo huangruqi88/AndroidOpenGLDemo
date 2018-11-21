@@ -32,3 +32,5 @@ GLES2.0中文API-glVertexAttribPointer()方法参数详解
 https://blog.csdn.net/flycatdeng/article/details/82667374
 ### 6.相机预览
  创建config.gradle的配置项
+
+### 7.相机Camra2和加载动画
