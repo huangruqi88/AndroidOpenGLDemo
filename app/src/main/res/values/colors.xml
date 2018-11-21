@@ -6,4 +6,5 @@
 
     <color name="bg">#FFFFFFFF</color>
     <color name="theme_text_normal">#FF2B2B2B</color>
+    <color name="colorPrimaryFocus">#FF444444</color>
 </resources>

@@ -2,7 +2,7 @@
  *
  * CameraFilter.java
  * 
- * Created by Wuwang on 2016/11/19
+ * Created by huangruqi on 2016/11/19
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
 package com.ruqii.com.androidopengldemo.filter;
@@ -49,7 +49,7 @@ public class OesFilter extends AFilter{
     }
 
     @Override
-    protected void onSizeChanged(int width, int height) {
+    public void onSizeChanged(int width, int height) {
 
     }
 

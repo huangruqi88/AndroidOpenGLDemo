@@ -1,4 +1,4 @@
-package edu.wuwang.opengl.camera;
+package com.ruqii.com.androidopengldemo.camera;
 
 /**
  * Description:

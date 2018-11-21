@@ -11,7 +11,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -20,7 +19,8 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import java.util.ArrayList;
+import com.ruqii.com.androidopengldemo.camera.Renderer;
+
 import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -38,16 +38,17 @@ import static android.hardware.camera2.CameraDevice.TEMPLATE_PREVIEW;
  * Android5.0以上使用Camera2
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Renderer implements GLSurfaceView.Renderer {
+public class Camera2Renderer implements Renderer {
     CameraDevice mDevice = null;
     CameraManager mCameraManager = null;
     private HandlerThread mThread;
     private Handler mHandler;
     private Size mPreviewSize;
     private int cameraId;
-
-    public Camera2Renderer(Context context, int cameraId) {
+    private TextureController mController;
+    public Camera2Renderer(Context context, int cameraId, TextureController mController) {
         this.cameraId = cameraId;
+        this.mController = mController;
         mCameraManager = (CameraManager) context.getSystemService(CAMERA_SERVICE);
         mThread = new HandlerThread("camera2 ");
         mThread.start();
@@ -82,18 +83,22 @@ public class Camera2Renderer implements GLSurfaceView.Renderer {
                         mDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
                             @Override
                             public void onConfigured(CameraCaptureSession session) {
-                                session.setRepeatingRequest(builder.build(), new CameraCaptureSession.CaptureCallback() {
-                                    @Override
-                                    public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
-                                        super.onCaptureProgressed(session, request, partialResult);
-                                    }
+                                try {
+                                    session.setRepeatingRequest(builder.build(), new CameraCaptureSession.CaptureCallback() {
+                                        @Override
+                                        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
+                                            super.onCaptureProgressed(session, request, partialResult);
+                                        }
 
-                                    @Override
-                                    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-                                        super.onCaptureCompleted(session, request, result);
-                                        mController.requestRender();
-                                    }
-                                },mHandler);
+                                        @Override
+                                        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                                            super.onCaptureCompleted(session, request, result);
+                                            mController.requestRender();
+                                        }
+                                    },mHandler);
+                                } catch (CameraAccessException e) {
+                                    e.printStackTrace();
+                                }
                             }
 
                             @Override
@@ -130,11 +135,11 @@ public class Camera2Renderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
 
     }
-
-//    public void onDestroy() {
-//        if (mDevice != null) {
-//            mDevice.close();
-//            mDevice = null;
-//        }
-//    }
+    @Override
+    public void onDestroy() {
+        if (mDevice != null) {
+            mDevice.close();
+            mDevice = null;
+        }
+    }
 }

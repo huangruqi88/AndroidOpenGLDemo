@@ -2,7 +2,7 @@
  *
  * FastDrawerHelper.java
  *
- * Created by Wuwang on 2016/11/17
+ * Created by huangruqi on 2016/11/17
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
 package com.ruqii.com.androidopengldemo.utils;

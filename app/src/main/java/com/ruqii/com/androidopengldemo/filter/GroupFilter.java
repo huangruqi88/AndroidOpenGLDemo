@@ -2,7 +2,7 @@
  *
  * GroupFilter.java
  * 
- * Created by Wuwang on 2016/12/14
+ * Created by huangruqi on 2016/12/14
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
 package com.ruqii.com.androidopengldemo.filter;
@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import edu.wuwang.opengl.utils.MatrixUtils;
 
 /**
  * Description:

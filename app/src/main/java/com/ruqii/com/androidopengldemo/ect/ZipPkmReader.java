@@ -2,10 +2,16 @@
  *
  * ZipPkmReader.java
  * 
- * Created by Wuwang on 2016/12/8
+ * Created by huangruqi on 2016/12/8
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
-package edu.wuwang.opengl.etc;
+package com.ruqii.com.androidopengldemo.ect;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.opengl.ETC1;
+import android.opengl.ETC1Util;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +21,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.opengl.ETC1;
-import android.opengl.ETC1Util;
-import android.util.Log;
 
 /**
  * Description:
@@ -42,12 +42,12 @@ public class ZipPkmReader {
     }
 
     public void setZipPath(String path){
-        Log.e("wuwang",path+" set");
+        Log.e("huangruqi",path+" set");
         this.path=path;
     }
 
     public boolean open(){
-        Log.e("wuwang",path+" open");
+        Log.e("huangruqi",path+" open");
         if(path==null)return false;
         try {
             if(path.startsWith("assets/")){
@@ -55,12 +55,12 @@ public class ZipPkmReader {
                 mZipStream=new ZipInputStream(s);
             }else{
                 File f=new File(path);
-                Log.e("wuwang",path+" is File exists->"+f.exists());
+                Log.e("huangruqi",path+" is File exists->"+f.exists());
                 mZipStream=new ZipInputStream(new FileInputStream(path));
             }
             return true;
         } catch (IOException e) {
-            Log.e("wuwang","eee-->"+e.getMessage());
+            Log.e("huangruqi","eee-->"+e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -88,10 +88,10 @@ public class ZipPkmReader {
                 if(mZipEntry!=null){
                     return true;
                 }
-                Log.e("wuwang","mZip entry null");
+                Log.e("huangruqi","mZip entry null");
             }
         } catch (IOException e) {
-            Log.e("wuwang","err  dd->"+e.getMessage());
+            Log.e("huangruqi","err  dd->"+e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -110,7 +110,7 @@ public class ZipPkmReader {
                 ETC1Util.ETC1Texture e= createTexture(mZipStream);
                 return e;
             } catch (IOException e1) {
-                Log.e("wuwang","err->"+e1.getMessage());
+                Log.e("huangruqi","err->"+e1.getMessage());
                 e1.printStackTrace();
             }
         }

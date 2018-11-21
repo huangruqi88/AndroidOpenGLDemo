@@ -3,15 +3,20 @@ package com.ruqii.com.androidopengldemo.camera.renderer;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.ruqii.com.androidopengldemo.camera.FrameCallback;
+import com.ruqii.com.androidopengldemo.camera.Renderer;
 import com.ruqii.com.androidopengldemo.camera.TextureFilter;
 import com.ruqii.com.androidopengldemo.filter.AFilter;
 import com.ruqii.com.androidopengldemo.filter.GroupFilter;
 import com.ruqii.com.androidopengldemo.filter.NoFilter;
+import com.ruqii.com.androidopengldemo.utils.EasyGlUtils;
 import com.ruqii.com.androidopengldemo.utils.MatrixUtils;
 
 import java.nio.ByteBuffer;
@@ -41,7 +46,7 @@ public class TextureController implements GLSurfaceView.Renderer {
     /**
      * 用户附加的Renderer或用来监听Renderer
      */
-    private GLSurfaceView.Renderer mRenderer;
+    private Renderer mRenderer;
     /**
      * 特效处理的Filter
      */
@@ -99,7 +104,7 @@ public class TextureController implements GLSurfaceView.Renderer {
     /**
      * 回调
      */
-    private Choreographer.FrameCallback mFrameCallback;
+    private FrameCallback mFrameCallback;
     /**
      * 回调数据的宽高
      */
@@ -114,6 +119,24 @@ public class TextureController implements GLSurfaceView.Renderer {
         init();
     }
 
+    public void surfaceCreated(Object nativeWindow){
+        this.surface=nativeWindow;
+        mGLView.surfaceCreated(null);
+    }
+
+    public void surfaceChanged(int width,int height){
+        this.mWindowSize.x=width;
+        this.mWindowSize.y=height;
+        mGLView.surfaceChanged(null,0,width,height);
+    }
+
+    public void surfaceDestroyed(){
+        mGLView.surfaceDestroyed(null);
+    }
+
+    public Object getOutput(){
+        return surface;
+    }
     private void init() {
         mGLView = new GLView(mContext);
 
@@ -150,7 +173,7 @@ public class TextureController implements GLSurfaceView.Renderer {
         return mEffectFilter.getTexture();
     }
 
-    public void setRenderer(GLSurfaceView.Renderer renderer) {
+    public void setRenderer(Renderer renderer) {
         mRenderer = renderer;
     }
 
@@ -160,17 +183,90 @@ public class TextureController implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        mEffectFilter.create();
+        mGroupFilter.create();
+        mShowFilter.create();
+        if (!isParamSet.get()) {
+            if (mRenderer != null) {
+                mRenderer.onSurfaceCreated(gl, config);
+            }
+            sdkParamSet();
+            calculateCallbackOM();
+            mEffectFilter.setFlag(mDirectionFlag);
+        }
 
+        deleteFrameBuffer();
+        GLES20.glGenFramebuffers(1, mExportFrame, 0);
+        EasyGlUtils.genTexturesWithParameter(1, mExportTexture, 0, GLES20.GL_RGBA, mDataSize.x, mDataSize.y);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        MatrixUtils.getMatrix(SM, mShowType, mDataSize.x, mDataSize.y, width, height);
+        mShowFilter.setSize(width, height);
+        mShowFilter.setMatrix(SM);
+        mGroupFilter.setSize(mDataSize.x, mDataSize.y);
+        mEffectFilter.setSize(mDataSize.x, mDataSize.y);
+        mShowFilter.setSize(mDataSize.x, mDataSize.y);
+        if (mRenderer != null) {
+            mRenderer.onSurfaceChanged(gl, width, height);
+        }
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        if (isParamSet.get()) {
+            mEffectFilter.draw();
+            mGroupFilter.setTextureId(mEffectFilter.getOutputTexture());
+            mGroupFilter.draw();
 
+            //显示传入的texture上，一般是显示在屏幕上
+            GLES20.glViewport(0, 0, mWindowSize.x, mWindowSize.y);
+            mShowFilter.setMatrix(SM);
+            mShowFilter.setTextureId(mGroupFilter.getOutputTexture());
+            mShowFilter.draw();
+            if (mRenderer != null) {
+                mRenderer.onDrawFrame(gl);
+            }
+            callbackIfNeeded();
+        }
+    }
+
+    /**
+     * 需要回调，则缩放图片到指定大小，读取数据并回调
+     */
+    private void callbackIfNeeded() {
+        if (mFrameCallback != null && (isRecord || isShoot)) {
+            indexOutput = indexOutput++ >= 2 ? 0 : indexOutput;
+            if (outPutBuffer[indexOutput] == null) {
+                outPutBuffer[indexOutput] = ByteBuffer.allocate(frameCallbackWidth *
+                        frameCallbackHeight * 4);
+            }
+            GLES20.glViewport(0, 0, frameCallbackWidth, frameCallbackHeight);
+            EasyGlUtils.bindFrameTexture(mExportFrame[0], mExportTexture[0]);
+            mShowFilter.setMatrix(callbackOM);
+            mShowFilter.draw();
+            frameCallback();
+            isShoot = false;
+            EasyGlUtils.unBindFrameBuffer();
+            mShowFilter.setMatrix(SM);
+        }
+    }
+
+
+    /**
+     * 读取数据并回调
+     */
+    private void frameCallback() {
+        GLES20.glReadPixels(0, 0, frameCallbackWidth, frameCallbackHeight,
+                GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, outPutBuffer[indexOutput]);
+        mFrameCallback.onFrame(outPutBuffer[indexOutput].array(), 0);
+    }
+
+    public void create(int width, int height) {
+        mGLView.attachedToWindow();
+        surfaceCreated(surface);
+        surfaceChanged(width, height);
     }
 
     public void onPause() {
@@ -181,10 +277,6 @@ public class TextureController implements GLSurfaceView.Renderer {
         mGLView.onResume();
     }
 
-    public void requestRender() {
-        mGLView.requestRender();
-    }
-
     public void destroy() {
         if (mRenderer != null) {
             mRenderer.onDestroy();
@@ -193,6 +285,36 @@ public class TextureController implements GLSurfaceView.Renderer {
         mGLView.detachedFromWindow();
         mGLView.clear();
     }
+
+    public void requestRender() {
+        mGLView.requestRender();
+    }
+
+    public Point getWindowSize() {
+        return mWindowSize;
+    }
+
+    private void calculateCallbackOM() {
+        if (frameCallbackHeight > 0 && frameCallbackWidth > 0 && mDataSize.x > 0 && mDataSize.y > 0) {
+            //计算输出的变换矩阵
+            MatrixUtils.getMatrix(callbackOM, MatrixUtils.TYPE_CENTERCROP, mDataSize.x, mDataSize.y,
+                    frameCallbackWidth,
+                    frameCallbackHeight);
+            MatrixUtils.flip(callbackOM, false, true);
+        }
+    }
+
+    private void deleteFrameBuffer() {
+        GLES20.glDeleteFramebuffers(1, mExportFrame, 0);
+        GLES20.glDeleteTextures(1, mExportTexture, 0);
+    }
+
+    private void sdkParamSet() {
+        if (!isParamSet.get() && mDataSize.x > 0 && mDataSize.y > 0) {
+            isParamSet.set(true);
+        }
+    }
+
 
     /**
      * 自定义GLSurfaceView，暴露出onAttachedToWindow
@@ -241,4 +363,62 @@ public class TextureController implements GLSurfaceView.Renderer {
             }
         }
     }
+
+    /**
+     * 增加滤镜
+     *
+     * @param filter 滤镜
+     */
+    public void addFilter(AFilter filter) {
+        mGroupFilter.addFilter(filter);
+    }
+
+
+    /**
+     * 设置输入图像与输出视图大小不同时，图像的展示方式
+     *
+     * @param type 展示方式，可选项为：
+     *             {@link MatrixUtils#TYPE_CENTERCROP}、{@link MatrixUtils#TYPE_CENTERINSIDE}、
+     *             {@link MatrixUtils#TYPE_FITEND}、{@link MatrixUtils#TYPE_FITSTART}、
+     *             {@link MatrixUtils#TYPE_FITXY}，与{@link ImageView.ScaleType}对应
+     */
+    public void setShowType(int type) {
+        this.mShowType = type;
+        if (mWindowSize.x > 0 && mWindowSize.y > 0) {
+            MatrixUtils.getMatrix(SM, mShowType,
+                    mDataSize.x, mDataSize.y, mWindowSize.x, mWindowSize.y);
+            mShowFilter.setMatrix(SM);
+            mShowFilter.setSize(mWindowSize.x, mWindowSize.y);
+        }
+    }
+
+    public void setFrameCallback(int width,int height,FrameCallback frameCallback){
+        this.frameCallbackWidth =width;
+        this.frameCallbackHeight = height;
+        if (frameCallbackWidth > 0 && frameCallbackHeight > 0) {
+            if(outPutBuffer!=null){
+                outPutBuffer=new ByteBuffer[3];
+            }
+            calculateCallbackOM();
+            this.mFrameCallback = frameCallback;
+        } else {
+            this.mFrameCallback = null;
+        }
+    }
+
+    /**
+     * 拍照
+     */
+    public void takePhoto(){
+        isShoot=true;
+    }
+
+    public void startRecord() {
+        isRecord = true;
+    }
+
+    public void stopRecord() {
+        isRecord = false;
+    }
+
 }

@@ -128,7 +128,7 @@ public abstract class AFilter {
     /**
      * 实现此方法，完成程序的创建，可直接调用createProgram来实现
      */
-    abstract void onCreate();
+    protected abstract void onCreate();
 
     /**
      * 宽高的改变
@@ -136,7 +136,7 @@ public abstract class AFilter {
      * @param width
      * @param height
      */
-    abstract void onSizeChanged(int width, int height);
+    protected abstract void onSizeChanged(int width, int height);
 
     /**
      * 绘制

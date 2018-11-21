@@ -2,7 +2,7 @@
  *
  * TrackFilter.java
  * 
- * Created by Wuwang on 2016/12/21
+ * Created by huangruqi on 2016/12/21
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
 package com.ruqii.com.androidopengldemo.camera;
@@ -85,7 +85,7 @@ public class TextureFilter extends AFilter {
         GLES20.glViewport(0,0,width,height);
         mFilter.setTextureId(mCameraTexture[0]);
         mFilter.draw();
-        Log.e("wuwang","textureFilter draw");
+        Log.e("huangruqi","textureFilter draw");
         EasyGlUtils.unBindFrameBuffer();
 
         if(a){

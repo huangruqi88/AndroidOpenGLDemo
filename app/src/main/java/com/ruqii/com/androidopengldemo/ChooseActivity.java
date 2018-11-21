@@ -2,7 +2,7 @@ package com.ruqii.com.androidopengldemo;/*
  *
  * ChooseActivity.java
  * 
- * Created by Wuwang on 2016/10/13
+ * Created by huangruqi on 2016/10/13
  */
 
 

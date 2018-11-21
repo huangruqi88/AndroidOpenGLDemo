@@ -2,7 +2,7 @@
  *
  * ShaderUtils.java
  *
- * Created by Wuwang on 2016/10/8
+ * Created by huangruqi on 2016/10/8
  */
 package com.ruqii.com.androidopengldemo.utils;
 
