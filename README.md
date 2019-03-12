@@ -1,4 +1,3 @@
-[这句话是想要跳转到Mark处的锚点链接，点击即会跳转](#Mark).
 
 # 说明：此处为OpenGL学习练习代码
 ## 参考链接https://blog.csdn.net/junzia/article/category/6462864
@@ -31,7 +30,7 @@ setRenderMode()注解中提到：系统默认mode==RENDERMODE_CONTINUOUSLY，这
 
 GLES2.0中文API-glVertexAttribPointer()方法参数详解
 https://blog.csdn.net/flycatdeng/article/details/82667374
-###  <div id="Mark"></div> 7.相机预览
+### 7.相机预览
 
 创建config.gradle的配置项
 
