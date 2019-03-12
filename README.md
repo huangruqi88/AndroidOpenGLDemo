@@ -32,6 +32,7 @@ setRenderMode()注解中提到：系统默认mode==RENDERMODE_CONTINUOUSLY，这
 GLES2.0中文API-glVertexAttribPointer()方法参数详解
 https://blog.csdn.net/flycatdeng/article/details/82667374
 ### 7.相机预览
- <div id="Mark">创建config.gradle的配置项</div>
+ <div id="Mark"></div>
+创建config.gradle的配置项
 
 ### 8.相机Camra2和加载动画
